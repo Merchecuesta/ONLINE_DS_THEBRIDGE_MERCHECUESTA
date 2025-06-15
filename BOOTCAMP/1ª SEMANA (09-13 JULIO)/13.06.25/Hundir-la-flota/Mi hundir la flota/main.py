@@ -19,7 +19,7 @@ def jugar():
     turno = 0
 
     while True:
-        print("\n🫵 Tu tablero:")
+        print("\n🫵  Tu tablero:")
         mostrar_tablero(tablero_jugador)
         print("\n🗺️ Tablero enemigo:")
         mostrar_tablero(tablero_maquina, oculto=True)

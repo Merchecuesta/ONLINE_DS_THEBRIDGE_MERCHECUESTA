@@ -1,17 +1,30 @@
 import numpy as np
 import random
+import time
 
 def mostrar_reglas():
     print("""
-🚢 Bienvenido a Batalla Naval
+🚢 ******* ¡Bienvenido a Hundir la Flota! ******* 🚢
+          
+🎯 Objetivo:
 
-Reglas rápidas:
-- Introduce filas y columnas del 0 al 9 para disparar.
-- Barcos marcados con 'O' en tu tablero.
-- 'X' = tocado, '-' = agua.
-- ¡El primero que hunda toda la flota gana!
+ Hundir toda la flota enemiga antes de que ellos hundan la tuya.
+          
 
-¡Buena suerte!
+📋 Instrucciones:
+          
+1️⃣  Para disparar, introduce primero el número de la fila (0-9) y luego el de la columna (0-9).
+
+2️⃣  Tus barcos aparecen en tu tablero como "O".
+
+3️⃣  Cuando un disparo da en un barco (tuyo o de tu enemigo), ese lugar se marca con una "X" ("Tocado").
+
+4️⃣  Si falláis, la casilla se marca con un "-" ("Agua").
+
+5️⃣  ¡El jugador que hunda toda la flota contraria gana la partida!
+          
+
+🔥 ¡Buena suerte y que gane el mejor estratega! 🔥
 """)
 
 def crea_tablero(lado=10):
@@ -54,20 +67,28 @@ def colocar_barcos(tablero):
                 tablero = tablero_temp
                 colocado = True
                 print(f"✅ Barco de eslora {eslora} colocado ")
+                time.sleep(0.7)
         if not colocado:
             print(f"⚠️ No se pudo colocar el barco de eslora {eslora} después de muchos intentos.")
+            time.sleep(0.7)
     return tablero
 
 def mostrar_tablero(tablero, oculto=False):
-    print("  " + " ".join(str(i) for i in range(tablero.shape[1])))
-    for i, fila in enumerate(tablero):
-        fila_mostrar = []
-        for c in fila:
+    # Imprimir números de columnas
+    print("  ", end="")
+    for i in range(tablero.shape[1]):
+        print(i, end=" ")
+    print() # Salto de línea al final de la fila
+    
+    # Imprimir filas con números y contenido
+    for i in range(tablero.shape[0]):
+        print(i, end=" ")
+        for c in tablero[i]:
             if oculto and c == "O":
-                fila_mostrar.append(" ")
+                print(" ", end=" ")
             else:
-                fila_mostrar.append(c)
-        print(str(i) + " " + " ".join(fila_mostrar))
+                print(c, end=" ")
+        print()  # Salto de línea al final de la fila
 
 def contar_barcos_restantes(tablero):
     return np.sum(tablero == "O")
@@ -95,11 +116,14 @@ def recibir_disparo(tablero, coordenada):
     if tablero[coordenada] == "O":
         tablero[coordenada] = "X"
         print(f"💥 ¡Tocado en {coordenada}!")
+        time.sleep(1)
     elif tablero[coordenada] == "X" or tablero[coordenada] == "-":
         print(f"⛔ Ya disparaste a {coordenada}, prueba otro lugar.")
+        time.sleep(1)
     else:
         tablero[coordenada] = "-"
         print(f"🌊 Agua en {coordenada}.")
+        time.sleep(1)
 
 def todos_hundidos(tablero):
     return not np.any(tablero == "O")
